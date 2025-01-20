@@ -10,6 +10,7 @@ class base
     const CONTEXT_TONE = 'TONE';
     const CONTEXT_LENGTH = 'LENGTH';
     // Set context for advisors
+    const CONTEXT_CAMPUS = 'CAMPUS';
     const CONTEXT_UNIT = 'UNIT';
     const CONTEXT_DEPARTMENT = 'DEPARTMENT';
 
@@ -267,7 +268,7 @@ class base
      * @param string $user_context UNIT or DEPARTMENT or BOTH
      * @return bool
      */
-    public static function has_capability($capability, $context, $userid = null, $doanything = true, $instance_id = 0, $user_context = 'BOTH')
+    public static function has_capability($capability, $context, $userid = null, $doanything = true, $instance_id = 0, $user_context = 'ALL')
     {
         global $USER, $DB;
         if (is_null($userid)) {

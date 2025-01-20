@@ -53,11 +53,17 @@ class campus_table extends \table_sql
         global $OUTPUT, $DB;
         // Get number of units in the campus
         $unit_count = $DB->count_records('local_organization_unit', array('campus_id' => $values->id));
+        // Get number of advisors in the dept
+        $advisor_count = $DB->count_records('local_organization_advisor', array('instance_id' => $values->id, 'user_context' => base::CONTEXT_CAMPUS));
+
 
         $actions = [
             'edit_url' => new \moodle_url('/local/organization/edit_campus.php', array('id' => $values->id)),
             'id' => $values->id,
+            'advisor_count' => $advisor_count,
+            'user_context' => base::CONTEXT_CAMPUS,
             'unit_count' => $unit_count,
+            'campus_id' => $values->id,
             'showEditButtons' => $this->showEditButtons,
             'showDelButtons' => $this->showDelButtons,
         ];

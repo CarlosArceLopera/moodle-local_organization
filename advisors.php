@@ -25,7 +25,7 @@ $PAGE->requires->css('/local/organization/css/general.css');
 $instance_id = required_param('instance_id', PARAM_INT);
 $user_context = required_param('user_context',PARAM_TEXT);
 $campus_id = required_param('campus_id',PARAM_TEXT);
-$unit_id = required_param('unit_id', PARAM_INT);
+$unit_id = optional_param('unit_id', 0, PARAM_INT);
 
 $formdata = new stdClass();
 $formdata->instance_id = $instance_id;
@@ -37,10 +37,12 @@ $mform = new advisors_filter_form(null, array('formdata' => $formdata));
 
 if ($mform->is_cancelled()) {
     if ($user_context == base::CONTEXT_UNIT) {
-        // redirect($CFG->wwwroot .'/local/organization/units.php?campus_id=' . $formdata->campus_id);
+         redirect($CFG->wwwroot .'/local/organization/units.php?campus_id=' . $formdata->campus_id);
+    } else if ($user_context == base::CONTEXT_DEPARTMENT) {
+        redirect($CFG->wwwroot . '/local/organization/departments.php?campus_id=' . $formdata->campus_id . '&unit_id='. $formdata->unit_id);
     }
     else {
-        // redirect($CFG->wwwroot . '/local/organization/departments.php?campus_id=' . $formdata->campus_id . '&unit_id='. $formdata->unit_id);
+         redirect($CFG->wwwroot . '/local/organization/campuses.php?campus_id=' . $formdata->campus_id . '&unit_id='. $formdata->unit_id);
     }
 } else if ($data = $mform->get_data()) {
     // Process validated data
@@ -74,6 +76,9 @@ if (!empty($instance_id) && !empty($user_context)) {
     if ($user_context == base::CONTEXT_UNIT) {
         $from .= ' JOIN {local_organization_unit} un ON un.id = a.instance_id';
         $conditions = "a.user_context = 'UNIT' and a.instance_id = " . $instance_id;
+    } else if ($user_context == base::CONTEXT_CAMPUS) {
+        $from .= ' JOIN {local_organization_campus} un ON un.id = a.instance_id';
+        $conditions = "a.user_context = 'CAMPUS' and a.instance_id = " . $instance_id;
     } else {
         $from .= ' JOIN {local_organization_dept} un ON un.id = a.instance_id';
         $conditions = "a.user_context = 'DEPARTMENT' and a.instance_id = " . $instance_id;

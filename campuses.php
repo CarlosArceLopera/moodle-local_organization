@@ -44,11 +44,14 @@ $params = array();
 // Define the SQL query to fetch data
 $sql = "id != 0";
 if (!empty($term_filter)) {
-    $sql .= " AND (name LIKE '%$term_filter%') OR (shortname LIKE '%$term_filter%')";
+    $sql .= " AND (" . $DB->sql_like('name', ':searchname', false) . " OR " .
+            $DB->sql_like('shortname', ':searchshort', false) . ")";
+    $params['searchname'] = '%' . $DB->sql_like_escape($term_filter) . '%';
+    $params['searchshort'] = '%' . $DB->sql_like_escape($term_filter) . '%';
 }
 
 // Define the SQL query to fetch data
-$table->set_sql('*', '{local_organization_campus}', $sql);
+$table->set_sql('*', '{local_organization_campus}', $sql, $params);
 
 // Define the base URL for the table
 $table->define_baseurl(new moodle_url('/local/organization/campuses.php'));

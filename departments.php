@@ -48,17 +48,20 @@ if ($mform->is_cancelled()) {
 //    $mform->display();
 }
 
-$params = array();
+$params = array('unit_id' => $unit_id);
 $table = new department_table('local_organization_departments_table', $formdata);
 
 // Define the SQL query to fetch data
-$sql = "unit_id = $unit_id";
+$sql = "unit_id = :unit_id";
 if (!empty($term_filter)) {
-    $sql .= " AND (LOWER(name) LIKE '%$term_filter%') OR (LOWER(shortname) LIKE '%$term_filter%') AND (unit_id = $unit_id)";
+    $sql .= " AND (" . $DB->sql_like('LOWER(name)', ':searchname', false) . " OR " .
+            $DB->sql_like('LOWER(shortname)', ':searchshort', false) . ")";
+    $params['searchname'] = '%' . $DB->sql_like_escape(strtolower($term_filter)) . '%';
+    $params['searchshort'] = '%' . $DB->sql_like_escape(strtolower($term_filter)) . '%';
 }
 
 // Define the SQL query to fetch data
-$table->set_sql('*', '{local_organization_dept}', $sql);
+$table->set_sql('*', '{local_organization_dept}', $sql, $params);
 
 // Define the base URL for the table
 $table->define_baseurl(new moodle_url('/local/organization/departments.php', ['unit_id' => $unit_id, 'campus_id' => $campus_id]));

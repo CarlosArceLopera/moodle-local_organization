@@ -1,5 +1,6 @@
 # Ignore the .idea folder (PhpStorm project files)
 .idea/
-
+stub/
+.DS_Store
 # Ignore all files starting with a dot (.)
 .*

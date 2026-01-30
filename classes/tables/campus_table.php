@@ -1,8 +1,9 @@
 <?php
 
 namespace local_organization;
+
 require_once($CFG->libdir . '/tablelib.php');
-require_once($CFG->libdir . "/externallib.php");
+
 use local_organization\base;
 
 class campus_table extends \table_sql

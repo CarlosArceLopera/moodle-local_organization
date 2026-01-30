@@ -2,10 +2,9 @@
 
 namespace local_organization;
 
-use local_organization\base;
-
-require_once('../../config.php');
 require_once($CFG->libdir . '/tablelib.php');
+
+use local_organization\base;
 
 
 class advisors_table extends \table_sql

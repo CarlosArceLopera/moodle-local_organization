@@ -2,11 +2,9 @@
 
 namespace local_organization;
 
-use local_organization\base;
-
-require_once('../../config.php');
 require_once($CFG->libdir . '/tablelib.php');
-require_once($CFG->libdir . "/externallib.php");
+
+use local_organization\base;
 
 class unit_table extends \table_sql
 {

@@ -75,19 +75,28 @@ if (!empty($instance_id) && !empty($user_context)) {
             JOIN {role} r ON r.id = a.role_id';
     if ($user_context == base::CONTEXT_UNIT) {
         $from .= ' JOIN {local_organization_unit} un ON un.id = a.instance_id';
-        $conditions = "a.user_context = 'UNIT' and a.instance_id = " . $instance_id;
+        $conditions = "a.user_context = :user_context1 AND a.instance_id = :instance_id1";
+        $params['user_context1'] = 'UNIT';
+        $params['instance_id1'] = $instance_id;
     } else if ($user_context == base::CONTEXT_CAMPUS) {
         $from .= ' JOIN {local_organization_campus} un ON un.id = a.instance_id';
-        $conditions = "a.user_context = 'CAMPUS' and a.instance_id = " . $instance_id;
+        $conditions = "a.user_context = :user_context1 AND a.instance_id = :instance_id1";
+        $params['user_context1'] = 'CAMPUS';
+        $params['instance_id1'] = $instance_id;
     } else {
         $from .= ' JOIN {local_organization_dept} un ON un.id = a.instance_id';
-        $conditions = "a.user_context = 'DEPARTMENT' and a.instance_id = " . $instance_id;
+        $conditions = "a.user_context = :user_context1 AND a.instance_id = :instance_id1";
+        $params['user_context1'] = 'DEPARTMENT';
+        $params['instance_id1'] = $instance_id;
     }
-    //TODO: Parameterize this
+
     if (!empty($term_filter)) {
-        $conditions .= " AND (u.firstname LIKE '%$term_filter%') OR (u.lastname LIKE '%$term_filter%')";
+        $conditions .= " AND (" . $DB->sql_like('u.firstname', ':searchfirst', false) . " OR " .
+                      $DB->sql_like('u.lastname', ':searchlast', false) . ")";
+        $params['searchfirst'] = '%' . $DB->sql_like_escape($term_filter) . '%';
+        $params['searchlast'] = '%' . $DB->sql_like_escape($term_filter) . '%';
     }
-    $table->set_sql($fields, $from, $conditions);
+    $table->set_sql($fields, $from, $conditions, $params);
 }
 
 // Define the base URL for the table

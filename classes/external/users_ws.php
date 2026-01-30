@@ -1,8 +1,34 @@
 <?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
-require_once($CFG->libdir . "/externallib.php");
-require_once("$CFG->dirroot/config.php");
+/**
+ * Users web service.
+ *
+ * @package     local_organization
+ * @copyright   2024 York University <itinnovation@yorku.ca>
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
+defined('MOODLE_INTERNAL') || die();
+
+use core_external\external_api;
+use core_external\external_function_parameters;
+use core_external\external_value;
+use core_external\external_single_structure;
+use core_external\external_multiple_structure;
 use local_organization\users;
 
 class local_organization_users_ws extends external_api
@@ -28,17 +54,24 @@ class local_organization_users_ws extends external_api
     public static function get_users($name="") {
         global $DB;
         $params = self::validate_parameters(self::get_users_parameters(), array('name' => $name));
+        $mdl_users = [];
         if (strlen($name) >= 3) {
-            $sql = "select * from {user} u where ";
-            $name = str_replace(' ', '%', $name);
-            $sql .= " (Concat(u.firstname, ' ', u.lastname ) like '%$name%' or (u.idnumber like '%$name%') or (u.email like '%$name%') or (u.username like '%$name%'))";
-            //How the ajax call with search via the form autocomplete
-            $sql .= " Order by u.lastname";
-            //How the ajax call with search via the form autocomplete
-            $mdl_users = $DB->get_records_sql($sql, array($name));
-        }
-        else {
-            //            $sql = "select * from {user} Order By lastname"; $mdlUsers = [];
+            $searchname = str_replace(' ', '%', $name);
+            $searchparam = '%' . $DB->sql_like_escape($searchname) . '%';
+
+            $sql = "SELECT * FROM {user} u WHERE " .
+                   $DB->sql_like("CONCAT(u.firstname, ' ', u.lastname)", ':searchname1', false) . " OR " .
+                   $DB->sql_like('u.idnumber', ':searchname2', false) . " OR " .
+                   $DB->sql_like('u.email', ':searchname3', false) . " OR " .
+                   $DB->sql_like('u.username', ':searchname4', false) . " " .
+                   "ORDER BY u.lastname";
+
+            $mdl_users = $DB->get_records_sql($sql, [
+                'searchname1' => $searchparam,
+                'searchname2' => $searchparam,
+                'searchname3' => $searchparam,
+                'searchname4' => $searchparam
+            ]);
         }
         $users = [];
         $i = 0;
@@ -100,14 +133,19 @@ class local_organization_users_ws extends external_api
                 'name' => $name
             )
         );
+        $existing_roles = [];
         if (strlen($name) >= 3) {
-            $sql = "select * from {role} u where ";
-            $sql .= " (name like '%$name%') OR (shortname like '%$name%')";
+            $searchparam = '%' . $DB->sql_like_escape($name) . '%';
+
+            $sql = "SELECT * FROM {role} u WHERE " .
+                   $DB->sql_like('name', ':searchname1', false) . " OR " .
+                   $DB->sql_like('shortname', ':searchname2', false);
+
             // Get the data
-            $existing_roles = $DB->get_records_sql($sql);
-        }
-        else {
-            //            $sql = "select * from {user} Order By lastname"; $mdlUsers = [];
+            $existing_roles = $DB->get_records_sql($sql, [
+                'searchname1' => $searchparam,
+                'searchname2' => $searchparam
+            ]);
         }
         $roles = [];
         $i = 0;

@@ -82,3 +82,34 @@ $string['organization:advisor_delete'] = 'Delete Advisors';
 $string['organization:unit_edit'] = 'Create/Edit Campuses, Units/Faculties, Departments';
 $string['organization:unit_view'] = 'View Campuses, Units/Faculties, Departments';
 $string['organization:unit_delete'] = 'Delete Campuses, Units/Faculties, Departments';
+
+/**
+ * Privacy API
+ */
+$string['privacy:campus'] = 'Campus';
+$string['privacy:campus:usermodified'] = 'User who last modified the campus';
+$string['privacy:campus:timecreated'] = 'Time campus was created';
+$string['privacy:campus:timemodified'] = 'Time campus was last modified';
+$string['privacy:campuses'] = 'Campuses';
+
+$string['privacy:unit'] = 'Unit/Faculty';
+$string['privacy:unit:usermodified'] = 'User who last modified the unit';
+$string['privacy:unit:timecreated'] = 'Time unit was created';
+$string['privacy:unit:timemodified'] = 'Time unit was last modified';
+$string['privacy:units'] = 'Units/Faculties';
+
+$string['privacy:department'] = 'Department';
+$string['privacy:department:usermodified'] = 'User who last modified the department';
+$string['privacy:department:timecreated'] = 'Time department was created';
+$string['privacy:department:timemodified'] = 'Time department was last modified';
+$string['privacy:departments'] = 'Departments';
+
+$string['privacy:advisor'] = 'Advisor Assignment';
+$string['privacy:advisor:user_id'] = 'The advisor user';
+$string['privacy:advisor:role_id'] = 'The role of the advisor';
+$string['privacy:advisor:instance_id'] = 'The unit or department instance';
+$string['privacy:advisor:user_context'] = 'Whether advisor is at unit or department level';
+$string['privacy:advisor:usermodified'] = 'User who last modified the advisor assignment';
+$string['privacy:advisor:timecreated'] = 'Time advisor assignment was created';
+$string['privacy:advisor:timemodified'] = 'Time advisor assignment was last modified';
+$string['privacy:advisors'] = 'Advisor Assignments';

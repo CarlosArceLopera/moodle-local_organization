@@ -1,7 +1,7 @@
 <?php
 
 $functions = array(
-    'organization_campus_delete' => array(
+    'local_organization_campus_delete' => array(
         'classname' => 'local_organization_campus_ws',
         'methodname' => 'delete',
         'classpath' => 'local/organization/classes/external/campus_ws.php',
@@ -10,7 +10,7 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
-    'organization_unit_delete' => array(
+    'local_organization_unit_delete' => array(
         'classname' => 'local_organization_unit_ws',
         'methodname' => 'delete',
         'classpath' => 'local/organization/classes/external/unit_ws.php',
@@ -19,7 +19,7 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
-    'organization_department_delete' => array(
+    'local_organization_department_delete' => array(
         'classname' => 'local_organization_department_ws',
         'methodname' => 'delete',
         'classpath' => 'local/organization/classes/external/department_ws.php',
@@ -28,7 +28,7 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
-    'organization_advisor_delete' => array(
+    'local_organization_advisor_delete' => array(
         'classname' => 'local_organization_advisors_ws',
         'methodname' => 'delete',
         'classpath' => 'local/organization/classes/external/advisors_ws.php',
@@ -37,7 +37,7 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
-    'organization_users_get' => array(
+    'local_organization_users_get' => array(
         'classname' => 'local_organization_users_ws',
         'methodname' => 'get_users',
         'classpath' => 'local/organization/classes/external/users_ws.php',
@@ -46,7 +46,7 @@ $functions = array(
         'capabilities' => '',
         'ajax' => true
     ),
-    'organization_roles_get' => array(
+    'local_organization_roles_get' => array(
         'classname' => 'local_organization_users_ws',
         'methodname' => 'get_roles',
         'classpath' => 'local/organization/classes/external/users_ws.php',

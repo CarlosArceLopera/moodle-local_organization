@@ -29,7 +29,7 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/str'], function($, Ajax, 
             let perpage = 50;
 
             promise = Ajax.call([{
-                methodname: 'organization_users_get',
+                methodname: 'local_organization_users_get',
                 args: {
                     name: query,
                 }

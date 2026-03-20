@@ -26,7 +26,7 @@ function deleteAdvisor() {
             notification.confirm(delete_string, delete_advisor, delete_string, cancel, function () {
                 // Delete the record
                 var deleteAdvisor = ajax.call([{
-                    methodname: 'organization_advisor_delete',
+                    methodname: 'local_organization_advisor_delete',
                     args: {
                         id: id,
                         role_id: role_id,

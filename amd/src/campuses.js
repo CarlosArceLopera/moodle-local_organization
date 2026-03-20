@@ -24,7 +24,7 @@ function deleteCampus() {
             notification.confirm(delete_string, delete_campus, delete_string, cancel, function () {
                 // Delete the record
                 var deleteCampus = ajax.call([{
-                    methodname: 'organization_campus_delete',
+                    methodname: 'local_organization_campus_delete',
                     args: {
                         id: id
                     }
